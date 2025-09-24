@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import React, { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -126,25 +125,29 @@ function TagPills({ values }: { values: string[] }) {
   );
 }
 
-function Header({ onOpenFilters }: { onOpenFilters: () => void }) {
+function Header({ onMessages }: { onMessages: () => void }) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-2xl bg-black text-white flex items-center justify-center font-bold">PM</div>
+        <div className="h-10 w-10 rounded-2xl bg-black text-white flex items-center justify-center font-bold">
+          PM
+        </div>
         <h1 className="text-xl font-semibold">Plug Me In</h1>
       </div>
+
+      {/* Top-right Messages (IG-style) */}
       <div className="flex items-center gap-2">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="rounded-2xl"><Filter className="h-4 w-4 mr-2"/>Filters</Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[360px] sm:w-[420px]">
-            <SheetHeader>
-              <SheetTitle>Filters</SheetTitle>
-            </SheetHeader>
-            <FiltersPanel/>
-          </SheetContent>
-        </Sheet>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-2xl relative"
+          onClick={onMessages}
+          aria-label="Open messages"
+        >
+          <MessageCircle className="h-5 w-5" />
+          {/* tiny unread dot (optional) */}
+          <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500" />
+        </Button>
       </div>
     </div>
   );
@@ -438,7 +441,7 @@ export default function PlugMeInApp() {
   return (
     <FiltersProvider>
       <div className="min-h-screen bg-neutral-50">
-        <Header onOpenFilters={()=>{}}/>
+        <Header onMessages={() => setTab("messages")} />
         <div className="px-4 pb-4 flex items-center gap-2">
           <Tabs value={tab} onValueChange={setTab} className="w-full">
             <TabsList className="rounded-2xl grid grid-cols-4 w-full">
@@ -448,9 +451,25 @@ export default function PlugMeInApp() {
               <TabsTrigger value="profile" className="rounded-2xl">Profile</TabsTrigger>
             </TabsList>
             <div className="flex items-center justify-between mt-3">
-              <div className="text-sm text-muted-foreground">Find creatives + gigs nearby. Use Filters for radius & tags.</div>
-              <PostGigDialog/>
-            </div>
+  {/* Filters (left) */}
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline" className="rounded-2xl">
+        <Filter className="h-4 w-4 mr-2" />
+        Filters
+      </Button>
+    </SheetTrigger>
+    <SheetContent side="left" className="w-[360px] sm:w-[420px]">
+      <SheetHeader>
+        <SheetTitle>Filters</SheetTitle>
+      </SheetHeader>
+      <FiltersPanel />
+    </SheetContent>
+  </Sheet>
+
+  {/* Post a gig (right) */}
+  <PostGigDialog />
+</div>
             <TabsContent value="discover" className="mt-2">
               <BlendFeed/>
             </TabsContent>
