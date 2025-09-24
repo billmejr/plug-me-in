@@ -454,7 +454,7 @@ export default function PlugMeInApp() {
   const [tab, setTab] = useState("discover");
   return (
     <FiltersProvider>
-      <div className="min-h-screen bg-neutral-50">
+      <div className="min-h-screen bg-background text-foreground">
         <Header
           onMessages={() => setTab("messages")}
           onProfile={() => setTab("profile")}
