@@ -13,7 +13,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Check, Filter, Heart, MapPin, MessageCircle, Plus, Send, Star, X } from "lucide-react";
+import { Check, Filter, Heart, MapPin, MessageCircle, Plus, Send, Star, X, User } from "lucide-react";
 
 /**
  * Plug Me In — MVP Mock (single-file demo)
@@ -125,30 +125,44 @@ function TagPills({ values }: { values: string[] }) {
   );
 }
 
-function Header({ onMessages }: { onMessages: () => void }) {
+function Header({
+  onMessages,
+  onProfile,
+}: {
+  onMessages: () => void;
+  onProfile: () => void;
+}) {
   return (
-    <div className="flex items-center justify-between p-4">
-      <div className="flex items-center gap-3">
+    <div className="relative p-4">
+      {/* Left: Profile icon */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="rounded-2xl absolute left-4 top-1/2 -translate-y-1/2"
+        onClick={onProfile}
+        aria-label="Open profile"
+      >
+        <User className="h-5 w-5" />
+      </Button>
+
+      {/* Center: Logo + Title */}
+      <div className="flex items-center justify-center gap-3">
         <div className="h-10 w-10 rounded-2xl bg-black text-white flex items-center justify-center font-bold">
           PM
         </div>
         <h1 className="text-xl font-semibold">Plug Me In</h1>
       </div>
 
-      {/* Top-right Messages (IG-style) */}
-      <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-2xl relative"
-          onClick={onMessages}
-          aria-label="Open messages"
-        >
-          <MessageCircle className="h-5 w-5" />
-          {/* tiny unread dot (optional) */}
-          <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500" />
-        </Button>
-      </div>
+      {/* Right: Messages icon */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="rounded-2xl absolute right-4 top-1/2 -translate-y-1/2"
+        onClick={onMessages}
+        aria-label="Open messages"
+      >
+        <MessageCircle className="h-5 w-5" />
+      </Button>
     </div>
   );
 }
@@ -441,15 +455,18 @@ export default function PlugMeInApp() {
   return (
     <FiltersProvider>
       <div className="min-h-screen bg-neutral-50">
-        <Header onMessages={() => setTab("messages")} />
+        <Header
+          onMessages={() => setTab("messages")}
+          onProfile={() => setTab("profile")}
+        />
         <div className="px-4 pb-4 flex items-center gap-2">
           <Tabs value={tab} onValueChange={setTab} className="w-full">
-            <TabsList className="rounded-2xl grid grid-cols-4 w-full">
-              <TabsTrigger value="discover" className="rounded-2xl">Discover</TabsTrigger>
-              <TabsTrigger value="gigs" className="rounded-2xl">Gigs</TabsTrigger>
-              <TabsTrigger value="messages" className="rounded-2xl">Messages</TabsTrigger>
-              <TabsTrigger value="profile" className="rounded-2xl">Profile</TabsTrigger>
-            </TabsList>
+           <TabsList className="rounded-2xl grid grid-cols-2 w-full">
+            <TabsTrigger value="discover" className="rounded-2xl">Discover</TabsTrigger>
+            <TabsTrigger value="gigs" className="rounded-2xl">Gigs</TabsTrigger>
+          </TabsList>
+
+
             <div className="flex items-center justify-between mt-3">
   {/* Filters (left) */}
   <Sheet>
