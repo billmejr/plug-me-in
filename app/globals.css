@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -113,10 +117,42 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  :root {
+    /* Dark surface + light text */
+    --background: 222 47% 6%;     /* near-slate-950 */
+    --foreground: 0 0% 98%;
+
+    /* Surfaces */
+    --card: 222 47% 8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    /* 🎯 Pink accent */
+    --primary: 330 81% 60%;       /* ~pink-500 */
+    --primary-foreground: 0 0% 100%;
+    --ring: 330 81% 60%;          /* focus rings also pink */
+
+    /* Supporting tones */
+    --secondary: 222 10% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 222 10% 22%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 330 45% 20%;        /* subtle pink-tinted backgrounds */
+    --accent-foreground: 0 0% 100%;
+
+    /* Borders/inputs slightly neutral so pink pops as “accent” */
+    --border: 222 10% 26%;
+    --input: 222 10% 26%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --radius: 0.75rem;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
+  /* Tailwind mappings */
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
 }
+
